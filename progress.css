@@ -22,7 +22,9 @@
     width: 100px;
     height: 100px;
     border-radius: 100%;
-    border: 10px solid var(--progress-none-color); 
+    border: 10px solid var(--progress-none-color);
+    transition-property: opacity;
+    transition-duration: 0.3s; 
 }
 
 .progress-tools {
@@ -71,6 +73,7 @@
     background-color: var(--progress-none-color);
     position: relative;
     cursor: pointer;
+    transition: 0.3s;
 }
 
 .toogle-checkbox::before {
@@ -82,4 +85,17 @@
     z-index: 2;
     position: absolute;
     left: 5px;
+} 
+
+.active{
+    background-color: var(--progress-active-color);
+    transition: 0.3s;
+}
+
+.toogle-checkbox.active {
+    
+}
+
+.active::before {
+    transform: translate(80%);
 } 
