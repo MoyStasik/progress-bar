@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./progress.css">
+    <title>progress bar</title>
+</head>
+<body>
+    <div class="progress-block">
+        <div class="progress-icon">
+            <div class="progress-circle"></div>
+        </div>
+        <div class="progress-tools">
+            <div class="progress-value">
+                <input class="progress-value__input" type="text" inputmode="numeric" pattern="\d*" value="0">
+                <span class="progress-value__span">Value</span>
+            </div>
+            <div class="progress-animate">
+                <label class="Toggle" for="toggle">
+                <input type="checkbox" name="toggle" id="toggle" class="Toggle__input hidden" />
+                <div class="toogle-checkbox"></div>
+                <span class="progress-animate__span">Animate</span>
+            </div>
+            <div class="progress-hide">
+                <label class="Toggle" for="toggle">
+                <input type="checkbox" name="toggle" id="toggle" class="Toggle__input hidden" />
+        
+                <div class="toogle-checkbox"></div>
+                <span class="progress-hide__span">Hide</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
