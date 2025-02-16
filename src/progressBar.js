@@ -107,10 +107,36 @@ function createInputElementWithValue(type, id, className, value) {
 
 function createSettingBlockWithLabel(progressAnimationBlock, progressHideBlock) {
     const labelForAnimation = document.createElement("label");
+    labelForAnimation.className = "Toogle";
+    labelForAnimation.setAttribute("for", "animation-toggle");
+    
+    const inputForAnimation = createInputElementWithoutValue("checkbox", "animation-toggle", "animation-toggle", "Toggle__input");
+    inputForAnimation.classList.add("hidden");
+    const btnAnimationDiv = createDiv("toggle-checkbox", "toggle-btn-animation");
+    labelForAnimation.append(inputForAnimation, btnAnimationDiv);
+    
+    const animationSpan = createSpanElement("progress-animate__span", "Animate"); 
+
+    progressAnimationBlock.append(labelForAnimation, animationSpan);
+    
+
+    
+
     const labelForHide = document.createElement("label");
+    labelForHide.className = "Toogle";
+    labelForHide.setAttribute("for", "hide-toggle");
+
+    const inputForHide = createInputElementWithoutValue("checkbox", "hide-toggle", "hide-toggle", "Toggle__input");
+    inputForHide.classList.add("hidden");
+    const btnHideDiv = createDiv("toggle-checkbox", "toggle-btn-hide");
+    labelForHide.append(inputForHide, btnHideDiv);
+
+    const hideSpan = createSpanElement("progress-hide__span", "Hide"); 
+    progressHideBlock.append(labelForHide, hideSpan);
+
 }
 
-function createInputElementWithoutValue(type, id, className) {
+function createInputElementWithoutValue(type, id, name, className) {
     const input = document.createElement("input");
     input.type = type;
     input.id = id;
