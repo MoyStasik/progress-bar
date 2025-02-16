@@ -33,19 +33,7 @@ export class ProgressBar {
 
         this.valueInput = this.progressBlock.querySelector("#progress-value-input");
         validateInput(this.valueInput, this);
-
-        this.setValue(this.#value);
-        this.valueInput.value = this.#value;
-        if (isAnimated == true ) {
-            this.setAnimatiton();
-            toggleAnimationInput.checked = true;
-            this.toggleAnimationButton.classList.add("active");
-        } 
-        if (isHidden == true) {
-            this.hide();
-            toggleHideInput.checked = true;
-            this.togglehideButton.classList.add("active");
-        } 
+        setFirstState(this.#value, isAnimated, isHidden, this);
     }
 
     renderTo(element) {
@@ -101,6 +89,20 @@ export class ProgressBar {
     }
 }
 
+function setFirstState(value, isAnimated, isHidden, progoressBlockInstance) {
+    progoressBlockInstance.setValue(value);
+    progoressBlockInstance.valueInput.value = value;
+    if (isAnimated == true ) {
+        progoressBlockInstance.setAnimatiton();
+        progoressBlockInstance.progressBlock.querySelector("#animation-toggle").checked = true;
+        progoressBlockInstance.toggleAnimationButton.classList.add("active");
+    } 
+    if (isHidden == true) {
+        progoressBlockInstance.hide();
+        progoressBlockInstance.progressBlock.querySelector("#hide-toggle").checked = true;
+        progoressBlockInstance.togglehideButton.classList.add("active");
+    } 
+}
 
 function validateInput(valueInput, progoressBlockInstance) {
     valueInput.addEventListener("keypress", (event) => {
