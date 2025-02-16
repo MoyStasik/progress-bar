@@ -25,6 +25,9 @@ export class ProgressBar {
     
         const upperCircle = createDiv("upper-circle");
         progressCircleContainer.appendChild(upperCircle);
+
+        this.valueInput = this.progressBlock.querySelector("#progress-value-input");
+        validateInput(this.valueInput);
     }
 
     renderTo(element) {
@@ -70,6 +73,32 @@ export class ProgressBar {
         this.progressCircle.style.opacity = "0";
     }
 
+}
+
+function validateInput(valueInput) {
+    valueInput.addEventListener("keypress", (event) => {
+        if (!/[0-9]/.test(event.key) && event.key !== "Backspace") {
+            event.preventDefault();  // Что за незаконный вторженец? Не цифра!
+        }
+        else if (valueInput.value >= 10) {
+            valueInput.value = 100;
+            event.preventDefault();
+        }
+    });
+
+    valueInput.addEventListener("keydown", (event) => {
+        if (event.key === "Backspace" && valueInput.value < 10) {
+            valueInput.value = 0;
+            event.preventDefault();
+        }
+    });
+
+    valueInput.addEventListener("keyup", (event) => {
+        if (valueInput.value[0] == 0 && valueInput.value.length > 1) {
+            valueInput.value = valueInput.value.slice(1);
+        }
+        
+    });
 }
 
 function toggleListeners(event, toggle, circleInstance) {
