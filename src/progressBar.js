@@ -1,22 +1,30 @@
-
-// import "./progressBar.css";
-
 export class ProgressBar {
     #value;
     #isAnimated;
     #isHidden;
     constructor(value = 0, isAnimated = false, isHidden = false) {
         console.log("Я тут")
-        this.value = value;
-        this.isAnimated = isAnimated;
-        this.isHidden = isHidden;
+        this.#value = value;
+        this.#isAnimated = isAnimated;
+        this.#isHidden = isHidden;
         this.progressBlock = createDiv("progress-block");
 
         const progressCircleContainer = createDiv("progress-icon");
-        const progressCircle = createDiv("progress-circle", "progress-bar");
-        progressCircleContainer.appendChild(progressCircle);
+        this.progressCircle = createDiv("progress-circle", "progress-bar");
+        progressCircleContainer.appendChild(this.progressCircle);
         this.progressBlock.appendChild(progressCircleContainer);
         this.progressBlock.appendChild(createApiForProgressBar());
+
+        this.togglehideButton = this.progressBlock.querySelector("#toggle-btn-hide");
+        const toggleHideInput = this.progressBlock.querySelector("#hide-toggle");
+        this.togglehideButton.addEventListener("click", (event) => toggleListeners(event, toggleHideInput, this));
+
+        this.toggleAnimationButton = this.progressBlock.querySelector("#toggle-btn-animation");
+        const toggleAnimationInput = this.progressBlock.querySelector("#animation-toggle");
+        this.toggleAnimationButton.addEventListener("click", (event) => toggleListeners(event, toggleAnimationInput, this));
+    
+        const upperCircle = createDiv("upper-circle");
+        progressCircleContainer.appendChild(upperCircle);
     }
 
     renderTo(element) {
@@ -25,23 +33,23 @@ export class ProgressBar {
     }
 
     setAnimatiton() {
+        console.log("it's me", this.#isAnimated)
         if (this.#isAnimated) {
             return;
         }
 
-        this.isAnimated = true;
-
-        // включать анимацию вращения
+        this.#isAnimated = true;
+        this.progressCircle.classList.add("animate");
     }
 
     deleteAnimation() {
+        console.log("it's me", !this.#isAnimated)
         if (!this.#isAnimated) {
             return;
         }
 
-        this.isAnimated = false;
-
-        // выключать анимацию вращения
+        this.#isAnimated = false;
+        this.progressCircle.classList.remove("animate");
     }
 
     show() {
@@ -50,8 +58,7 @@ export class ProgressBar {
         }
 
         this.#isHidden = false;
-
-        // отобразить элемент круг
+        this.progressCircle.style.opacity = "1";
     }
 
     hide() {
@@ -60,10 +67,23 @@ export class ProgressBar {
         }
 
         this.#isHidden = true;
-
-        // скрыть элемент круг
+        this.progressCircle.style.opacity = "0";
     }
+
 }
+
+function toggleListeners(event, toggle, circleInstance) {
+    console.log(event.currentTarget.id);
+    if (!toggle.checked) {
+        event.currentTarget.classList.add("active");
+        (event.currentTarget.id === "toggle-btn-hide") ? circleInstance.hide() : circleInstance.setAnimatiton(); 
+        return;
+    }
+    event.currentTarget.classList.remove("active");
+    (event.currentTarget.id === "toggle-btn-hide") ? circleInstance.show() : circleInstance.deleteAnimation(); 
+}
+
+
 
 function createDiv(className, id) {
     const divElement = document.createElement("div");

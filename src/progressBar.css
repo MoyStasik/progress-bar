@@ -1,0 +1,126 @@
+:root {
+    --progress-none-color: #e5e3e3;
+    --progress-active-color: #0135CE;
+    --white-color: #fff;
+    font-family: sans-serif;
+}
+
+.progress-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+    padding: 15px;
+    height: 100%;
+}
+
+.progress-circle {
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+    border: 10px solid conic-gradient(red 0deg, red 3.6deg, var(--progress-none-color) 3.6deg, var(--progress-none-color) 360deg);
+    transition-property: opacity;
+    transition-duration: 0.3s; 
+    position: relative;
+
+    background: conic-gradient(red 0deg, red 180deg, var(--progress-none-color) 180deg, var(--progress-none-color) 360deg);
+}
+
+.progress-icon {
+    position: relative;
+}
+
+.upper-circle {
+    width: 180px;
+    height: 180px;
+    background-color: var(--white-color);
+    border-radius: 100%;
+
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.progress-circle.animate {
+    animation: animate 2s linear 0s infinite;
+}
+
+.progress-tools {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.progress-value,
+.progress-animate,
+.progress-hide {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+
+.progress-value__input {
+    width: 66px;
+    height: 39px;
+    border-radius: 20px;
+    border: 1px dashed var(--progress-active-color);
+    text-align: center;
+    font-size: 16px;
+}
+
+.hidden {
+    display: none;
+}
+
+.Toggle {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+
+.toggle-checkbox {
+    width: 66px;
+    height: 39px;
+    border: 1px solid var(--progress-active-color);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    background-color: var(--progress-none-color);
+    position: relative;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.toggle-checkbox::before {
+    content: "";
+    border-radius: 100%;
+    width: 30px;
+    background-color: var(--white-color);
+    height: 30px;
+    z-index: 2;
+    position: absolute;
+    left: 5px;
+} 
+
+.active{
+    background-color: var(--progress-active-color);
+    transition: 0.3s;
+}
+
+.active::before {
+    transform: translate(80%);
+} 
+
+@keyframes animate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
