@@ -9,6 +9,10 @@
     box-sizing: border-box;
 }
 
+html, body {
+    height: 100%;
+}
+
 .progress-block {
     display: flex;
     flex-direction: column;
@@ -16,11 +20,12 @@
     align-items: center;
     gap: 50px;
     padding: 15px;
+    height: 100%;
 }
 
 .progress-circle {
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 200px;
     border-radius: 100%;
     border: 10px solid var(--progress-none-color);
     transition-property: opacity;
@@ -46,7 +51,7 @@
     width: 66px;
     height: 39px;
     border-radius: 20px;
-    border: 1px solid var(--progress-none-color);
+    border: 1px dashed var(--progress-active-color);
     text-align: center;
     font-size: 16px;
 }
