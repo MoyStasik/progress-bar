@@ -16,14 +16,14 @@
 }
 
 .progress-circle {
-    width: 200px;
-    height: 200px;
+    width: 210px;
+    height: 210px;
     border-radius: 100%;
     transition-property: opacity;
     transition-duration: 0.3s; 
     position: relative;
 
-    background: conic-gradient(var(--progress-active-color) 0deg, var(--progress-active-color) 180deg, var(--progress-none-color) 180deg, var(--progress-none-color) 360deg);
+    background: conic-gradient(var(--progress-active-color) 0deg, var(--progress-active-color) 0deg, var(--progress-none-color) 0deg, var(--progress-none-color) 360deg);
 }
 
 .progress-icon {
@@ -37,8 +37,8 @@
     border-radius: 100%;
 
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 15px;
+    left: 15px;
 }
 
 .progress-circle.animate {

@@ -3,10 +3,15 @@ export class ProgressBar {
     #isAnimated;
     #isHidden;
     constructor(value = 0, isAnimated = false, isHidden = false) {
-        console.log("Я тут")
-        this.#value = value;
-        this.#isAnimated = isAnimated;
-        this.#isHidden = isHidden;
+        if (Number.isNaN(value)) {
+            throw new Error(`invalid type of ${value} expected number`);
+        }
+        if (!(Number(value) >= 0 && Number(value) <= 100)) {
+            throw new Error(`invalid value of ${value} expected value >= 0 and value <= 100`);
+        }
+
+        this.#value = Number(value);
+
         this.progressBlock = createDiv("progress-block");
 
         const progressCircleContainer = createDiv("progress-icon");
@@ -27,7 +32,20 @@ export class ProgressBar {
         progressCircleContainer.appendChild(upperCircle);
 
         this.valueInput = this.progressBlock.querySelector("#progress-value-input");
-        validateInput(this.valueInput);
+        validateInput(this.valueInput, this);
+
+        this.setValue(this.#value);
+        this.valueInput.value = this.#value;
+        if (isAnimated == true ) {
+            this.setAnimatiton();
+            toggleAnimationInput.checked = true;
+            this.toggleAnimationButton.classList.add("active");
+        } 
+        if (isHidden == true) {
+            this.hide();
+            toggleHideInput.checked = true;
+            this.togglehideButton.classList.add("active");
+        } 
     }
 
     renderTo(element) {
@@ -73,15 +91,26 @@ export class ProgressBar {
         this.progressCircle.style.opacity = "0";
     }
 
+    setValue(value) {
+        this.#value = value;
+        this.progressCircle.style.background = `conic-gradient(var(--progress-active-color) 0deg, var(--progress-active-color) ${3.6 * value}deg, var(--progress-none-color) ${3.6 * value}deg, var(--progress-none-color) 360deg)`;
+    }
+
+    getValue() {
+        return this.#value;
+    }
 }
 
-function validateInput(valueInput) {
+
+function validateInput(valueInput, progoressBlockInstance) {
     valueInput.addEventListener("keypress", (event) => {
         if (!/[0-9]/.test(event.key) && event.key !== "Backspace") {
             event.preventDefault();  // Что за незаконный вторженец? Не цифра!
         }
-        else if (valueInput.value >= 10) {
-            valueInput.value = 100;
+        else if (valueInput.value == 100 ){
+            event.preventDefault();
+        }
+        else if (valueInput.value >= 10 && event.key != 0) {
             event.preventDefault();
         }
     });
@@ -97,7 +126,8 @@ function validateInput(valueInput) {
         if (valueInput.value[0] == 0 && valueInput.value.length > 1) {
             valueInput.value = valueInput.value.slice(1);
         }
-        
+
+        progoressBlockInstance.setValue(Number(valueInput.value))
     });
 }
 
