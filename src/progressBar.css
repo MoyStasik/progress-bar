@@ -103,6 +103,9 @@
     z-index: 2;
     position: absolute;
     left: 5px;
+
+    transition: transform;
+    transition-duration: 0.3s;
 } 
 
 .active{
@@ -111,6 +114,8 @@
 }
 
 .active::before {
+    transition: transform;
+    transition-duration: 0.3s;
     transform: translate(80%);
 } 
 
