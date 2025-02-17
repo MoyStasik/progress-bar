@@ -33,7 +33,6 @@ export class ProgressBar {
      * @param {HTMLElement} element - elemnt for rendering block into
      */
     renderTo(element) {
-        console.log(this.progressBlock instanceof HTMLElement, element)
         element.insertAdjacentElement("beforeend", this.progressHeader);
         element.insertAdjacentElement("beforeend", this.progressBlock);
     }
@@ -42,7 +41,6 @@ export class ProgressBar {
      * spin progress bar
      */
     setAnimatiton() {
-        console.log("it's me", this.#isAnimated)
         if (this.#isAnimated) {
             return;
         }
@@ -243,7 +241,6 @@ function validateInput(valueInput, progoressBlockInstance) {
  * @param {*} circleInstance - progress bar block object
  */
 function toggleListeners(event, toggle, circleInstance) {
-    console.log(event.currentTarget.id);
     if (!toggle.checked) {
         event.currentTarget.classList.add("active");
         (event.currentTarget.id === "toggle-btn-hide") ? circleInstance.hide() : circleInstance.setAnimatiton(); 
