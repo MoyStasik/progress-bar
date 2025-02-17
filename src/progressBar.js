@@ -14,34 +14,16 @@ export class ProgressBar {
      */
     constructor(value = 0, isAnimated = false, isHidden = false) {
         if (Number.isNaN(value)) {
-            throw new Error(`invalid type of ${value} expected number`);
+            return new Error(`invalid type of ${value} expected number`);
         }
         if (!(Number(value) >= 0 && Number(value) <= 100)) {
-            throw new Error(`invalid value of ${value} expected value >= 0 and value <= 100`);
+            return new Error(`invalid value of ${value} expected value >= 0 and value <= 100`);
         }
 
         this.#value = Number(value);
 
-        this.progressBlock = createDiv("progress-block");
+        createProgressBarBlock(this);
 
-        const progressCircleContainer = createDiv("progress-icon");
-        this.progressCircle = createDiv("progress-circle", "progress-bar");
-        progressCircleContainer.appendChild(this.progressCircle);
-        this.progressBlock.appendChild(progressCircleContainer);
-        this.progressBlock.appendChild(createApiForProgressBar());
-
-        this.togglehideButton = this.progressBlock.querySelector("#toggle-btn-hide");
-        const toggleHideInput = this.progressBlock.querySelector("#hide-toggle");
-        this.togglehideButton.addEventListener("click", (event) => toggleListeners(event, toggleHideInput, this));
-
-        this.toggleAnimationButton = this.progressBlock.querySelector("#toggle-btn-animation");
-        const toggleAnimationInput = this.progressBlock.querySelector("#animation-toggle");
-        this.toggleAnimationButton.addEventListener("click", (event) => toggleListeners(event, toggleAnimationInput, this));
-    
-        const upperCircle = createDiv("upper-circle");
-        progressCircleContainer.appendChild(upperCircle);
-
-        this.valueInput = this.progressBlock.querySelector("#progress-value-input");
         validateInput(this.valueInput, this);
         setFirstState(this.#value, isAnimated, isHidden, this);
     }
@@ -52,6 +34,7 @@ export class ProgressBar {
      */
     renderTo(element) {
         console.log(this.progressBlock instanceof HTMLElement, element)
+        element.insertAdjacentElement("beforeend", this.progressHeader);
         element.insertAdjacentElement("beforeend", this.progressBlock);
     }
 
@@ -91,6 +74,17 @@ export class ProgressBar {
 
         this.#isHidden = false;
         this.progressCircle.style.opacity = "1";
+
+
+        const stageOne = this.progressBlock.querySelector("#stage-one");
+        const stageTwo = this.progressBlock.querySelector("#stage-two");
+        const stageThree = this.progressBlock.querySelector("#stage-three");
+        const stageFour = this.progressBlock.querySelector("#stage-four");
+
+        stageOne.style.opacity = "1";
+        stageTwo.style.opacity = "1";
+        stageThree.style.opacity = "1";
+        stageFour.style.opacity = "1";
     }
 
     /**
@@ -103,6 +97,15 @@ export class ProgressBar {
 
         this.#isHidden = true;
         this.progressCircle.style.opacity = "0";
+        const stageOne = this.progressBlock.querySelector("#stage-one");
+        const stageTwo = this.progressBlock.querySelector("#stage-two");
+        const stageThree = this.progressBlock.querySelector("#stage-three");
+        const stageFour = this.progressBlock.querySelector("#stage-four");
+
+        stageOne.style.opacity = "0";
+        stageTwo.style.opacity = "0";
+        stageThree.style.opacity = "0";
+        stageFour.style.opacity = "0";
     }
 
     /**
@@ -112,6 +115,18 @@ export class ProgressBar {
     setValue(value) {
         this.#value = value;
         this.progressCircle.style.background = `conic-gradient(var(--progress-active-color) 0deg, var(--progress-active-color) ${3.6 * value}deg, var(--progress-none-color) ${3.6 * value}deg, var(--progress-none-color) 360deg)`;
+        
+        const stageOne = this.progressBlock.querySelector("#stage-one");
+        stageOne.style.background = `linear-gradient(to top, var(--progress-active-color) 0% ${4 * value}%, var(--progress-none-color) ${4 * value}% 100%)`;
+        value -= 25;
+        const stageTwo = this.progressBlock.querySelector("#stage-two");
+        stageTwo.style.background = `linear-gradient(to top, var(--progress-active-color) 0% ${4 * value}%, var(--progress-none-color) ${4 * value}% 100%)`;
+        value -= 25;
+        const stageThree = this.progressBlock.querySelector("#stage-three");
+        stageThree.style.background = `linear-gradient(to top, var(--progress-active-color) 0% ${4 * value}%, var(--progress-none-color) ${4 * value}% 100%)`;
+        value -= 25;
+        const stageFour = this.progressBlock.querySelector("#stage-four");
+        stageFour.style.background = `linear-gradient(to top, var(--progress-active-color) 0% ${4 * value}%, var(--progress-none-color) ${4 * value}% 100%)`;
     }
 
     /**
@@ -121,6 +136,45 @@ export class ProgressBar {
     getValue() {
         return this.#value;
     }
+}
+
+/**
+ * create progress bar block elements 
+ * @param {ProgressBar} progressBarInstance - progress bar object
+ */
+function createProgressBarBlock(progressBarInstance) {
+    progressBarInstance.progressHeader = createDiv("progress-header");
+    const headerSpan = createSpanElement("progress-header__span", "Progress");
+    progressBarInstance.progressHeader.appendChild(headerSpan);
+
+    progressBarInstance.progressBlock = createDiv("progress-block");
+
+    const progressCircleContainer = createDiv("progress-icon");
+    progressBarInstance.progressCircle = createDiv("progress-circle", "progress-bar");
+    progressCircleContainer.appendChild(progressBarInstance.progressCircle);
+    progressBarInstance.progressBlock.appendChild(progressCircleContainer);
+    progressBarInstance.progressBlock.appendChild(createApiForProgressBar());
+
+    progressBarInstance.togglehideButton = progressBarInstance.progressBlock.querySelector("#toggle-btn-hide");
+    const toggleHideInput = progressBarInstance.progressBlock.querySelector("#hide-toggle");
+    progressBarInstance.togglehideButton.addEventListener("click", (event) => toggleListeners(event, toggleHideInput, progressBarInstance));
+
+    progressBarInstance.toggleAnimationButton = progressBarInstance.progressBlock.querySelector("#toggle-btn-animation");
+    const toggleAnimationInput = progressBarInstance.progressBlock.querySelector("#animation-toggle");
+    progressBarInstance.toggleAnimationButton.addEventListener("click", (event) => toggleListeners(event, toggleAnimationInput, progressBarInstance));
+
+    const upperCircle = createDiv("upper-circle");
+    progressCircleContainer.appendChild(upperCircle);
+
+    const stageOne = createDiv("stage-one", "stage-one"); 
+    const stageTwo = createDiv("stage-two", "stage-two"); 
+    const stageThree = createDiv("stage-three", "stage-three"); 
+    const stageFour = createDiv("stage-four", "stage-four"); 
+
+    upperCircle.append(stageOne, stageTwo, stageThree, stageFour);
+
+    progressBarInstance.valueInput = progressBarInstance.progressBlock.querySelector("#progress-value-input");
+    
 }
 
 /**
@@ -153,7 +207,7 @@ function setFirstState(value, isAnimated, isHidden, progoressBlockInstance) {
 function validateInput(valueInput, progoressBlockInstance) {
     valueInput.addEventListener("keypress", (event) => {
         if (!/[0-9]/.test(event.key) && event.key !== "Backspace") {
-            event.preventDefault();  // Что за незаконный вторженец? Не цифра!
+            event.preventDefault();
         }
         else if (valueInput.value == 100 ){
             event.preventDefault();
@@ -257,6 +311,7 @@ function createInputElementWithValue(type, id, className, value) {
     input.id = id;
     input.className = className;
     input.value = value;
+    input.autocomplete = "off";
 
     return input;
 }
